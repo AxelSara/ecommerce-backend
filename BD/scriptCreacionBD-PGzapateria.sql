@@ -15,22 +15,10 @@ CREATE SCHEMA IF NOT EXISTS `zapateriapg` DEFAULT CHARACTER SET utf8mb4 COLLATE 
 USE `zapateriapg` ;
 
 -- -----------------------------------------------------
--- Table `zapateriapg`.`carritos`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `zapateriapg`.`carritos` (
-  `id_carrito` BIGINT NOT NULL AUTO_INCREMENT,
-  `monto` DECIMAL(9,2) NOT NULL,
-  PRIMARY KEY (`id_carrito`))
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
-
-
--- -----------------------------------------------------
 -- Table `zapateriapg`.`productos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `zapateriapg`.`productos` (
-  `id_producto` BIGINT NOT NULL AUTO_INCREMENT,
+  `idProducto` BIGINT NOT NULL AUTO_INCREMENT,
   `nombreZapato` VARCHAR(100) NOT NULL,
   `colorZapato` VARCHAR(60) NOT NULL,
   `precioZapato` DECIMAL(9,2) NOT NULL,
@@ -41,22 +29,40 @@ CREATE TABLE IF NOT EXISTS `zapateriapg`.`productos` (
   `imagenFrontal` TEXT NOT NULL,
   `imagenLateral` TEXT NOT NULL,
   `imagenSuperior` TEXT NOT NULL,
-  PRIMARY KEY (`id_producto`))
+  PRIMARY KEY (`idProducto`))
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
 
 
 -- -----------------------------------------------------
+-- Table `zapateriapg`.`roles`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `zapateriapg`.`roles` (
+  `idRol` INT NOT NULL AUTO_INCREMENT,
+  `nombreRol` VARCHAR(50) NOT NULL,
+  `descripcionRol` TEXT NOT NULL,
+  PRIMARY KEY (`idRol`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `zapateriapg`.`usuarios`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `zapateriapg`.`usuarios` (
-  `id_usuario` BIGINT NOT NULL AUTO_INCREMENT,
+  `idUsuario` BIGINT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(120) NOT NULL,
   `email` VARCHAR(120) NOT NULL,
   `telefono` VARCHAR(30) NOT NULL,
   `contraseña` VARCHAR(30) NOT NULL,
-  PRIMARY KEY (`id_usuario`))
+  `roles_idRol` INT NOT NULL,
+  PRIMARY KEY (`idUsuario`, `roles_idRol`),
+  INDEX `fk_usuarios_roles1_idx` (`roles_idRol` ASC) VISIBLE,
+  CONSTRAINT `fk_usuarios_roles1`
+    FOREIGN KEY (`roles_idRol`)
+    REFERENCES `zapateriapg`.`roles` (`idRol`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4
 COLLATE = utf8mb4_0900_ai_ci;
@@ -66,25 +72,25 @@ COLLATE = utf8mb4_0900_ai_ci;
 -- Table `zapateriapg`.`direcciones`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `zapateriapg`.`direcciones` (
-  `id_direcciones` BIGINT NOT NULL AUTO_INCREMENT,
+  `idDireccion` BIGINT NOT NULL AUTO_INCREMENT,
   `calle` VARCHAR(100) NOT NULL,
   `colonia` VARCHAR(100) NOT NULL,
   `email` VARCHAR(120) NOT NULL,
   `cp` BIGINT NOT NULL,
-  `delegacion_municipio` VARCHAR(100) NOT NULL,
+  `delegacionMunicipio` VARCHAR(100) NOT NULL,
   `estado` VARCHAR(100) NOT NULL,
-  `indicaciones_especiales` TEXT NULL,
+  `indicacionesEspeciales` TEXT NULL,
   `noExterior` BIGINT NOT NULL,
   `noInterior` BIGINT NULL,
-  `nombre_domicilio` VARCHAR(100) NOT NULL,
-  `nombre_usuario` VARCHAR(100) NOT NULL,
+  `nombreDomicilio` VARCHAR(100) NOT NULL,
+  `nombreUsuario` VARCHAR(100) NOT NULL,
   `telefono` VARCHAR(30) NOT NULL,
-  `usuarios_id_usuario` BIGINT NOT NULL,
-  PRIMARY KEY (`id_direcciones`, `usuarios_id_usuario`),
-  INDEX `fk_direcciones_usuarios1_idx` (`usuarios_id_usuario` ASC) VISIBLE,
+  `usuarios_idUsuario` BIGINT NOT NULL,
+  PRIMARY KEY (`idDireccion`, `usuarios_idUsuario`),
+  INDEX `fk_direcciones_usuarios1_idx` (`usuarios_idUsuario` ASC) VISIBLE,
   CONSTRAINT `fk_direcciones_usuarios1`
-    FOREIGN KEY (`usuarios_id_usuario`)
-    REFERENCES `zapateriapg`.`usuarios` (`id_usuario`)
+    FOREIGN KEY (`usuarios_idUsuario`)
+    REFERENCES `zapateriapg`.`usuarios` (`idUsuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -94,72 +100,48 @@ ENGINE = InnoDB;
 -- Table `zapateriapg`.`pedidos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `zapateriapg`.`pedidos` (
-  `id_pedido` BIGINT NOT NULL AUTO_INCREMENT,
+  `idPedido` BIGINT NOT NULL AUTO_INCREMENT,
   `email` VARCHAR(120) NOT NULL,
   `fechaPedido` DATETIME NOT NULL,
-  `usuarios_id_usuario` BIGINT NOT NULL,
-  `carritos_id_carrito` BIGINT NOT NULL,
-  `direcciones_id_direcciones` BIGINT NOT NULL,
-  PRIMARY KEY (`id_pedido`, `usuarios_id_usuario`, `carritos_id_carrito`, `direcciones_id_direcciones`),
-  INDEX `fk_pedidos_usuarios1_idx` (`usuarios_id_usuario` ASC) VISIBLE,
-  INDEX `fk_pedidos_carritos1_idx` (`carritos_id_carrito` ASC) VISIBLE,
-  INDEX `fk_pedidos_direcciones1_idx` (`direcciones_id_direcciones` ASC) VISIBLE,
+  `monto` DECIMAL(9,2) NOT NULL,
+  `usuarios_idUsuario` BIGINT NOT NULL,
+  `direcciones_idDirecciones` BIGINT NOT NULL,
+  PRIMARY KEY (`idPedido`, `usuarios_idUsuario`, `direcciones_idDirecciones`),
+  INDEX `fk_pedidos_usuarios1_idx` (`usuarios_idUsuario` ASC) VISIBLE,
+  INDEX `fk_pedidos_direcciones1_idx` (`direcciones_idDirecciones` ASC) VISIBLE,
   CONSTRAINT `fk_pedidos_usuarios1`
-    FOREIGN KEY (`usuarios_id_usuario`)
-    REFERENCES `zapateriapg`.`usuarios` (`id_usuario`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_pedidos_carritos1`
-    FOREIGN KEY (`carritos_id_carrito`)
-    REFERENCES `zapateriapg`.`carritos` (`id_carrito`)
+    FOREIGN KEY (`usuarios_idUsuario`)
+    REFERENCES `zapateriapg`.`usuarios` (`idUsuario`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_pedidos_direcciones1`
-    FOREIGN KEY (`direcciones_id_direcciones`)
-    REFERENCES `zapateriapg`.`direcciones` (`id_direcciones`)
+    FOREIGN KEY (`direcciones_idDirecciones`)
+    REFERENCES `zapateriapg`.`direcciones` (`idDireccion`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `zapateriapg`.`favoritos`
+-- Table `zapateriapg`.`pedidos_has_productos`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `zapateriapg`.`favoritos` (
-  `id_favorito` BIGINT NOT NULL AUTO_INCREMENT,
-  `productos_id_producto` BIGINT NOT NULL,
-  PRIMARY KEY (`id_favorito`, `productos_id_producto`),
-  INDEX `fk_favoritos_productos1_idx` (`productos_id_producto` ASC) VISIBLE,
-  CONSTRAINT `fk_favoritos_productos1`
-    FOREIGN KEY (`productos_id_producto`)
-    REFERENCES `zapateriapg`.`productos` (`id_producto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `zapateriapg`.`productos_has_carritos`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `zapateriapg`.`productos_has_carritos` (
-  `productos_id_producto` BIGINT NOT NULL,
-  `carritos_id_carrito` BIGINT NOT NULL,
-  PRIMARY KEY (`productos_id_producto`, `carritos_id_carrito`),
-  INDEX `fk_productos_has_carritos_carritos1_idx` (`carritos_id_carrito` ASC) VISIBLE,
-  INDEX `fk_productos_has_carritos_productos1_idx` (`productos_id_producto` ASC) VISIBLE,
-  CONSTRAINT `fk_productos_has_carritos_productos1`
-    FOREIGN KEY (`productos_id_producto`)
-    REFERENCES `zapateriapg`.`productos` (`id_producto`)
+CREATE TABLE IF NOT EXISTS `zapateriapg`.`pedidos_has_productos` (
+  `pedidos_idPedido` BIGINT NOT NULL,
+  `productos_idProducto` BIGINT NOT NULL,
+  PRIMARY KEY (`pedidos_idPedido`, `productos_idProducto`),
+  INDEX `fk_pedidos_has_productos_productos1_idx` (`productos_idProducto` ASC) VISIBLE,
+  INDEX `fk_pedidos_has_productos_pedidos1_idx` (`pedidos_idPedido` ASC) VISIBLE,
+  CONSTRAINT `fk_pedidos_has_productos_pedidos1`
+    FOREIGN KEY (`pedidos_idPedido`)
+    REFERENCES `zapateriapg`.`pedidos` (`idPedido`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `fk_productos_has_carritos_carritos1`
-    FOREIGN KEY (`carritos_id_carrito`)
-    REFERENCES `zapateriapg`.`carritos` (`id_carrito`)
+  CONSTRAINT `fk_pedidos_has_productos_productos1`
+    FOREIGN KEY (`productos_idProducto`)
+    REFERENCES `zapateriapg`.`productos` (`idProducto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB
-DEFAULT CHARACTER SET = utf8mb4
-COLLATE = utf8mb4_0900_ai_ci;
+ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
