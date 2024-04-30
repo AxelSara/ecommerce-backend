@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ZapateriasPgApiApplication<zapateriasPG_api>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.zapateriaspg.app.ZapateriasPgApiApplication",
+            "projectName": "zapateriasPG_api",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
