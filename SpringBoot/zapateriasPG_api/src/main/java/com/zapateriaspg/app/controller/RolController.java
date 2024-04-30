@@ -14,7 +14,7 @@ import com.zapateriaspg.app.entity.Rol;
 import com.zapateriaspg.app.service.RolService;
 
 @RestController
-@RequestMapping("api/v1/roles")
+@RequestMapping("api/roles")
 public class RolController {
 	
 	@Autowired

@@ -28,6 +28,13 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario createUsuario(Usuario usuario) {
+        // Verificar si el usuario ya existe en el sistema
+        Optional<Usuario> usuarioExistente = usuarioRepository.findByEmail(usuario.getEmail());
+        if (usuarioExistente != null) {
+            // Si el usuario ya existe, no se crea
+            return null;
+        }
+        // Si el usuario no existe, se crea
         return usuarioRepository.save(usuario);
     }
 
@@ -45,7 +52,8 @@ public class UsuarioServiceImpl implements UsuarioService {
             usuarioExistente.setEmail(usuario.getEmail());
             // Actualiza otros campos según sea necesario...
             return usuarioRepository.save(usuarioExistente);
-        } else {
+        } 
+        else {
             // Maneja el caso en que el usuario no se encuentra
             return null;
         }
