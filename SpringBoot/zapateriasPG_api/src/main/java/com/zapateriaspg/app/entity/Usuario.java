@@ -2,10 +2,11 @@ package com.zapateriaspg.app.entity;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name="Usuario")
 public class Usuario {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long idUsuario;
@@ -17,6 +18,8 @@ public class Usuario {
 	private String telefono;
 	@Column(name="password",nullable = false, length = 30)
 	private String password;
+
+	private Boolean active; 
 	
 	/*
 
@@ -74,6 +77,15 @@ public class Usuario {
 		this.password = password;
 	}
 
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+
 	public Rol getRol() {
 		return rol;
 	}
@@ -81,6 +93,9 @@ public class Usuario {
 	public void setRol(Rol rol) {
 		this.rol = rol;
 	}
+
+
+
 
 	@Override
 	public String toString() {
@@ -95,6 +110,8 @@ public class Usuario {
 		builder.append(telefono);
 		builder.append(", password=");
 		builder.append(password);
+		builder.append(", active=");
+		builder.append(active);
 		builder.append(", rol=");
 		builder.append(rol);
 		builder.append("]");

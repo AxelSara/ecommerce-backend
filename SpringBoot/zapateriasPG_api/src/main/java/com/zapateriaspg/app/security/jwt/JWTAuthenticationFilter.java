@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
-	// STEP 7.1 recuperar el email y password del body de la solicitud 
+	// STEP 7.1 recuperar el email y password del body de la solicitud antes de codificar el token
 	// que vendría en localhost:8080/login
 	@Override
 	public Authentication attemptAuthentication(
@@ -47,8 +47,10 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		UsernamePasswordAuthenticationToken usernamePAT = new UsernamePasswordAuthenticationToken(
 				authCredentials.getEmail(),
 				authCredentials.getPassword()
-				);
-		
+		);
+
+		System.out.println("Contraseña recibida en el cuerpo de la solicitud: " + authCredentials.getPassword());
+		logger.debug("Contraseña recibida en el cuerpo de la solicitud: {}");
 		// Autenticar el usuario con authManager
 		return getAuthenticationManager().authenticate(usernamePAT);
 		
@@ -80,7 +82,4 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 			
 			
 		}
-	
-	
-	
 }

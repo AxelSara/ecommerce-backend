@@ -43,40 +43,35 @@ import io.jsonwebtoken.Jwts;
 
 public class TokenUtils {
 	
-	private final static String ACCESS_TOKEN_SECRET = "9i3DZ1KONQ5VET8vWXl7EfaT+Ws2b9Bv+okkT7f6DBo=";
+	// private final static String ACCESS_TOKEN_SECRET = "9i3DZ1KONQ5VET8vWXl7EfaT+Ws2b9Bv+okkT7f6DBo=";
+	private final static String ACCESS_TOKEN_SECRET = "2e58420b7a254484a496f8a5ac38f8f52e58420b7a254484a496f8a5ac38f8f5";
 	private final static long ACCESS_TOKEN_VALID_SECONDS = 900L;
 
 	// STEP 7.1 Crear el token
 	public static String createToken(
-        String name, 
-        String email, 
-        Collection<? extends GrantedAuthority> authorities  ) {
-    
-    Date expirationDate = new Date( System.currentTimeMillis() + ACCESS_TOKEN_VALID_SECONDS * 1000 );
-    SecretKey secretKey = Keys.hmacShaKeyFor( Decoders.BASE64.decode(ACCESS_TOKEN_SECRET ));
-    
-    // Datos extras en el payload
-    Map<String , Object > extra = new HashMap<>();
-    extra.put("name", name  );
-    extra.put("authorities", authorities);
-    
-    // Generación del token JWT
-    String token = Jwts
-            .builder()
-            .subject(email)
-            .expiration(expirationDate)
-            .claims(extra)
-            .signWith(secretKey)
-            .compact();
-    
-    // Imprimir el token generado en la consola o en el registro de la aplicación
-	System.out.println("=======================================");
-    System.out.println("Token JWT generado: " + token);
-	System.out.println("=======================================");
-    
-    return token;
-}
-
+			String name, 
+			String email, 
+			Collection<? extends GrantedAuthority> authorities  ) {
+		
+		
+		Date expirationDate = new Date( System.currentTimeMillis() + ACCESS_TOKEN_VALID_SECONDS * 1000 );
+		SecretKey secretKey = Keys.hmacShaKeyFor( Decoders.BASE64.decode(ACCESS_TOKEN_SECRET ));
+		
+		// Datos extras en el payload
+		Map<String , Object > extra = new HashMap<>();
+		extra.put("name", name  );
+		extra.put("authorities", authorities);
+		
+		// Generación del token JWT
+		return Jwts
+				.builder()
+				.subject(email)
+				.expiration(expirationDate)
+				.claims(extra)
+				.signWith(secretKey)
+				.compact();	
+		
+	}
 
 
 

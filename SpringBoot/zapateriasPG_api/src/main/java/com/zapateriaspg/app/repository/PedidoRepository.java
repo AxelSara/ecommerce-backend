@@ -1,14 +1,14 @@
-package com.zapateriaspg.app.repository;
+// package com.zapateriaspg.app.repository;
 
-import java.util.Optional;
-import org.springframework.data.repository.CrudRepository;
-import com.zapateriaspg.app.entity.Pedido;
+// import java.util.Optional;
+// import org.springframework.data.repository.CrudRepository;
+// import com.zapateriaspg.app.entity.Pedido;
 
-public interface PedidoRepository extends CrudRepository<Pedido , Long> {
-	Optional<Pedido> findById(Long idPedido);
-	Iterable<Pedido> findByEmail(String email);
-	Iterable<Pedido> findAll();
-	boolean existsByEmail(String email);
+// public interface PedidoRepository extends CrudRepository<Pedido , Long> {
+// 	Optional<Pedido> findById(Long idPedido);
+// 	Iterable<Pedido> findByEmail(String email);
+// 	Iterable<Pedido> findAll();
+// 	boolean existsByEmail(String email);
 
 
-}
+// }
