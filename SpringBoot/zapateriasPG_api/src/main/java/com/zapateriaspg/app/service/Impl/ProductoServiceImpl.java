@@ -37,7 +37,7 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
-    public Producto actualizarProducto(Producto producto) {
+    public Producto actualizarProducto(Producto producto, Long id) {
        // Obtener el producto existente en la base de datos
         Optional<Producto> productoExistente = this.productoRepository.findById(producto.getIdProducto());
         if(productoExistente.isPresent()){
