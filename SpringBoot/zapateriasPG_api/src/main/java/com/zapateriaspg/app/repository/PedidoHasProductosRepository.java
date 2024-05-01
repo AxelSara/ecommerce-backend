@@ -1,11 +1,11 @@
 package com.zapateriaspg.app.repository;
 
-import java.util.Optional;
-
+// import java.util.Optional;
 import org.springframework.data.repository.CrudRepository;
+import com.zapateriaspg.app.entity.PedidoHasProductos;
 
-public interface PedidoHasProductosRepository extends CrudRepository<PedidoHasProductosRepository, Long> {
+public interface PedidoHasProductosRepository extends CrudRepository<PedidoHasProductos, Long> {
 
-    Optional<PedidoHasProductosRepository> findByPedido(Long id);
-    Optional<PedidoHasProductosRepository> findByProducto(Long id); 
+    // Optional<PedidoHasProductos> findByPedido(Long id);
+    // Optional<PedidoHasProductos> findByProducto(Long id); 
 } 

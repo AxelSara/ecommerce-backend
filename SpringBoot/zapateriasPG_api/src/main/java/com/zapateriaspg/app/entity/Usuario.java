@@ -3,7 +3,7 @@ package com.zapateriaspg.app.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="usuarios")
+@Table(name="Usuario")
 public class Usuario {
 
 	@Id
@@ -27,6 +27,7 @@ public class Usuario {
 	 */
 	@ManyToOne
 	@JoinColumn(name="idRol", nullable = false)
+	@OrderColumn(name = "idRol", insertable = false, updatable = false)
 	private Rol rol;
 	
 	public Usuario() {
@@ -65,11 +66,11 @@ public class Usuario {
 		this.telefono = telefono;
 	}
 
-	public String getpassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setpassword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 

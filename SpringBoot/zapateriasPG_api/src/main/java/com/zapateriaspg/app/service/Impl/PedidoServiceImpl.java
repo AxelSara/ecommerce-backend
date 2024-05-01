@@ -24,7 +24,6 @@ public class PedidoServiceImpl implements PedidoService {
         
         else
             throw new IllegalStateException("El pedido con el id " + id + " no existe");
-    
    }
 
    @Override

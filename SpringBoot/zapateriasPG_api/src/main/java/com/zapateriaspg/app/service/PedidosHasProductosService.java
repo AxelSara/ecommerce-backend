@@ -6,11 +6,11 @@ import java.util.Optional;
 import com.zapateriaspg.app.entity.PedidoHasProductos;
 
 public interface PedidosHasProductosService {
-
-    Optional<PedidoHasProductos> getBolsaHasProductosById(Long id);
-    List<PedidoHasProductos> getAllBolsaHasProductos(); 
-    PedidoHasProductos saveBolsaHasProductos(PedidoHasProductos pedidoHasProductos);
-    void deleteBolsaHasProductos(Long id);
-    
-
+    Optional<PedidoHasProductos> obtenerBolsaHasProductosById(Long id);
+    List<PedidoHasProductos> obtenerTodosPedidosHasProductos(); 
+    PedidoHasProductos insertarPedidoHasProductos(PedidoHasProductos pedidoHasProductos);
+    PedidoHasProductos actualizarPedidoHasProductos(PedidoHasProductos pedidoHasProductos, Long id);
+    void deletePedidoHasProductos(Long id);    
 }
+
+

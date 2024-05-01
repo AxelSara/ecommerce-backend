@@ -66,8 +66,4 @@ public class ProductoServiceImpl implements ProductoService {
 		productoExistente.setStock(0);
 		productoRepository.save(productoExistente);
     }
-
-
-
-
 }

@@ -66,6 +66,6 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public List<Usuario> getAllUsuarios() {
-        throw new UnsupportedOperationException("Unimplemented method 'getAllUsuarios'");
+        return (List<Usuario>) usuarioRepository.findAll();
     }
 }
