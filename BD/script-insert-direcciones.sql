@@ -1,6 +1,6 @@
 SELECT * FROM zapateriapg.direcciones;
 ALTER TABLE productos AUTO_INCREMENT = 1; /* INICIALIZAMOS EL CONTADOR EN 1*/
-INSERT INTO direcciones (calle, colonia, email, cp, delegacion_municipio,estado,indicaciones_especiales,noExterior,noInterior,nombre_domicilio,nombre_usuario,telefono,usuarios_id_usuario) 
+INSERT INTO direcciones (calle, colonia, email, cp, delegacionMunicipio,estado,indicacionesEspeciales,noExterior,noInterior,nombreDomicilio,nombreUsuario,telefono,usuarios_idUsuario) 
 VALUES 
 ("poniente 10", "Girasol", "mariana1@gmail.com", "56613", "Gustavo Amadero","Ciudad de mexico",'Sin indicaciones',"14","3","oficina","Mateo Garcia","1234567890","4"),
 ("San juanita", "rio verde","roxxGN@gmail.com", "55983","Venustiano Carranza","Edo.Mex",'Entrega en casa habitacion de dos pisos color naranja',"127","22","casita","Armando Torres","1234659803","5"),

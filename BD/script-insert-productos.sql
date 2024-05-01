@@ -1,5 +1,4 @@
 SELECT * FROM zapateriapg.productos;
-SELECT * FROM productos; /*VISUALIZAMOS LA TABLA*/
 ALTER TABLE productos AUTO_INCREMENT = 1; /* INICIALIZAMOS EL CONTADOR EN 1*/
 INSERT INTO productos (nombreZapato, colorZapato, precioZapato, marcaZapato, generoZapato,stock,imagenPrincipal,imagenFrontal,imagenLateral,imagenSuperior) VALUES 
 ("20-15", "Negro","420","Calzado Gus","hombre", 3, 'https://raw.githubusercontent.com/AxelSara/S-G/main/Frontend/assets/img/productos/2015-negro-muestra.jpeg','https://raw.githubusercontent.com/AxelSara/S-G/main/Frontend/assets/img/productos/2015-negro-lateral.jpeg', 'https://raw.githubusercontent.com/AxelSara/S-G/main/Frontend/assets/img/productos/2015-negro-frontal.jpeg','https://raw.githubusercontent.com/AxelSara/S-G/main/Frontend/assets/img/productos/2015-negro-superior.jpeg' ),

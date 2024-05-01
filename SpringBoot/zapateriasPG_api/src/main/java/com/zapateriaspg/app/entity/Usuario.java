@@ -3,7 +3,7 @@ package com.zapateriaspg.app.entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name="usuarios")
+@Table(name="Usuario")
 public class Usuario {
 
 	@Id
@@ -15,8 +15,8 @@ public class Usuario {
 	private String email;
 	@Column(name="telefono",nullable = false, length = 30)
 	private String telefono;
-	@Column(name="contraseña",nullable = false, length = 30)
-	private String contraseña;
+	@Column(name="password",nullable = false, length = 30)
+	private String password;
 	
 	/*
 
@@ -27,6 +27,7 @@ public class Usuario {
 	 */
 	@ManyToOne
 	@JoinColumn(name="idRol", nullable = false)
+	@OrderColumn(name = "idRol", insertable = false, updatable = false)
 	private Rol rol;
 	
 	public Usuario() {
@@ -65,12 +66,12 @@ public class Usuario {
 		this.telefono = telefono;
 	}
 
-	public String getContraseña() {
-		return contraseña;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setContraseña(String contraseña) {
-		this.contraseña = contraseña;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Rol getRol() {
@@ -92,8 +93,8 @@ public class Usuario {
 		builder.append(email);
 		builder.append(", telefono=");
 		builder.append(telefono);
-		builder.append(", contraseña=");
-		builder.append(contraseña);
+		builder.append(", password=");
+		builder.append(password);
 		builder.append(", rol=");
 		builder.append(rol);
 		builder.append("]");
