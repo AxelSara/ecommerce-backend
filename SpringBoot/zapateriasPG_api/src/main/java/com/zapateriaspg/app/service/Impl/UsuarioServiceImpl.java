@@ -1,5 +1,6 @@
 package com.zapateriaspg.app.service.Impl;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
+// import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.zapateriaspg.app.entity.Usuario;
 import com.zapateriaspg.app.repository.UsuarioRepository;
@@ -12,12 +13,12 @@ import java.util.Optional;
 public class UsuarioServiceImpl implements UsuarioService {
 
     UsuarioRepository usuarioRepository;
-    PasswordEncoder passwordEncoder;
+    // PasswordEncoder passwordEncoder;
 
-    public UsuarioServiceImpl( UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
-        this.usuarioRepository = usuarioRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    // public UsuarioServiceImpl( UsuarioRepository usuarioRepository, PasswordEncoder passwordEncoder) {
+    //     this.usuarioRepository = usuarioRepository;
+    //     this.passwordEncoder = passwordEncoder;
+    // }
 
     @Override
     public Usuario getUserById(long id) {
@@ -50,14 +51,17 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario createUsuario(Usuario user) {	
 		user.setActive(true);
 		user.setIdUsuario(0);
+		user.setPassword(user.getPassword());
+
+
 		// user.setRole( new Role(1) );
-		user.setPassword( passwordEncoder.encode( user.getPassword() ) );
+		// user.setPassword( passwordEncoder.encode( user.getPassword() ) );
 		
 		if( usuarioRepository.existsByEmail(user.getEmail()) ) {
 			throw new IllegalStateException(" El usuario con el email " + user.getEmail());
 		}
-        // imprmir user
-        System.out.println("Usuario a crear: " + user);
+        // // imprmir user
+        // System.out.println("Usuario a crear: " + user);
 					
 		return usuarioRepository.save(user);
 	}
