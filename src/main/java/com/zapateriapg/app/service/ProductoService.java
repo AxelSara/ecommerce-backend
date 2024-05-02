@@ -7,7 +7,6 @@ public interface ProductoService {
     Producto obtenerProductoPorId(long id);
     List<Producto> obtenerTodosLosProductos();
     Producto insertarProducto(Producto producto);
-    Producto actualizarProducto(Producto producto);
+    Producto actualizarProducto(Producto producto, Long id);
     void borrarProducto(long id);
 } 
-
