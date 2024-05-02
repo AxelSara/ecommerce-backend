@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 // import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 // import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+
 // import org.springframework.security.core.userdetails.User;
 // import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,15 +21,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 // import org.springframework.security.web.SecurityFilterChain;
-// import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 // import org.springframework.web.cors.CorsConfiguration;
 // import org.springframework.web.cors.CorsConfigurationSource;
 // import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 // import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
-// import com.zapateriapg.app.security.jwt.JWTAuthenticationFilter;
-// import com.zapateriapg.app.security.jwt.JWTAuthorizationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+
+import com.zapateriapg.app.security.jwt.JWTAuthenticationFilter;
+import com.zapateriapg.app.security.jwt.JWTAuthorizationFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
@@ -97,15 +100,15 @@ public class WebSecurityConfig {
 
     @Bean
 	SecurityFilterChain filterChain( 
-			HttpSecurity http
-			// AuthenticationManager authManager,
-			// JWTAuthorizationFilter jwtAuthorizationFilter
+			HttpSecurity http,
+			AuthenticationManager authManager,
+			JWTAuthorizationFilter jwtAuthorizationFilter
 			) throws Exception {
 		
-	// 	// STEP 7.3 Crear el objeto y la configuración para jwtAuthenticationFilter
-	// 	JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter();
-	// 	jwtAuthenticationFilter.setAuthenticationManager(  authManager );
-	// 	jwtAuthenticationFilter.setFilterProcessesUrl("/login");
+	 	// STEP 7.3 Crear el objeto y la configuración para jwtAuthenticationFilter
+		JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter();
+		jwtAuthenticationFilter.setAuthenticationManager(  authManager );
+		jwtAuthenticationFilter.setFilterProcessesUrl("/login"); // localhost:8080/login
 		
 		
 		// STEP 2.1 Deshabilitar la seguridad
@@ -132,16 +135,16 @@ public class WebSecurityConfig {
 				// STEP 7: Agregamos el filtro de autenticación del login
 				// interceptar las solicitudes de autenticación 
 				// y generamos el token en la respuesta
-				// .addFilter(jwtAuthenticationFilter)
+				.addFilter(jwtAuthenticationFilter)
 				// STEP 8: Agregamos el filtro para las demas solicitudes verificando el token JWT
 				// Interceptamos las solicitudes , extraemos y validamos el token
 				// y autenticamos al usuario
-				// .addFilterBefore( jwtAuthorizationFilter  ,  UsernamePasswordAuthenticationFilter.class)				
+				.addFilterBefore( jwtAuthorizationFilter  ,  UsernamePasswordAuthenticationFilter.class)				
 			    // no es necesario almacenar información de sesión en el servidor, 
 				// ya que toda la información necesaria para la autenticación 
 				// se encuentra en el token, y cada solicitud es autónoma.				 
-				// .sessionManagement(managment -> managment.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.csrf( csrf-> csrf.disable() )
+				.sessionManagement(managment -> managment.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.csrf( csrf-> csrf.disable())
 				.httpBasic( withDefaults() ) 
 				.build();
 		
