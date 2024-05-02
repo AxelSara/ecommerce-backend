@@ -8,6 +8,7 @@ import com.zapateriapg.app.entity.Usuario;
 import com.zapateriapg.app.service.UsuarioService;
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/usuarios")
 public class UsuarioController {
@@ -29,9 +30,18 @@ public class UsuarioController {
 
     // Método para crear un nuevo usuario
     @PostMapping
-    public Usuario createUsuario(@RequestBody Usuario usuario) {
-        return usuarioService.createUsuario(usuario);
+    public ResponseEntity<Usuario> createUsuario(@RequestBody Usuario usuario) {
+        Usuario crearUsuario = usuarioService.createUsuario(usuario);
+        // return usuarioService.createUsuario(usuario);
+        return new ResponseEntity<Usuario>( crearUsuario, HttpStatus.CREATED );	
     }
+
+    // @PostMapping
+	// ResponseEntity<User> createUser(@RequestBody User user ){
+	// 	User createdUser = userService.createUser(user);
+		
+	// 	return new ResponseEntity<User>( createdUser, HttpStatus.CREATED );		
+	// }
 
     // Método para obtener todos los usuarios
 	@GetMapping 

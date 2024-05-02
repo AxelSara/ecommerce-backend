@@ -20,6 +20,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
+
 	// STEP 7.1 recuperar el email y password del body de la solicitud antes de codificar el token
 	// que vendría en localhost:8080/login
 	@Override

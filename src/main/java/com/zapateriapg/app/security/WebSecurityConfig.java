@@ -1,41 +1,35 @@
 package com.zapateriapg.app.security;
 
-// import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-// import org.springframework.http.HttpMethod;
-// import org.springframework.security.authentication.AuthenticationManager;
-// import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-// import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
-// import org.springframework.security.core.userdetails.User;
-// import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 // import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-// import org.springframework.security.web.SecurityFilterChain;
-// import org.springframework.web.cors.CorsConfiguration;
-// import org.springframework.web.cors.CorsConfigurationSource;
-// import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-// import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
 import org.springframework.security.web.SecurityFilterChain;
 
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 
 import com.zapateriapg.app.security.jwt.JWTAuthenticationFilter;
 import com.zapateriapg.app.security.jwt.JWTAuthorizationFilter;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
-// import java.util.List;
+import java.util.List;
 
 
 @Configuration
@@ -112,15 +106,22 @@ public class WebSecurityConfig {
 		
 		
 		// STEP 2.1 Deshabilitar la seguridad
-		/*return http
-				.authorizeHttpRequests( authorize -> authorize.anyRequest().permitAll() )
-				.csrf( csrf-> csrf.disable() )
-				.httpBasic( withDefaults() ) 
-				.build(); */
+		// ============================================================================
+		// return http
+		// 		.authorizeHttpRequests( authorize -> authorize.anyRequest().permitAll() )
+		// 		.csrf( csrf-> csrf.disable() )
+		// 		.httpBasic( withDefaults() ) 
+		// 		.build(); 
+
+		// ================================================================================
+		
+
+
 		
 		// STEP 2.2 PErsonalizar la seguridad en los endpoints
 
 		return http
+				.cors(withDefaults())
 				.authorizeHttpRequests( authorize -> authorize
 						.requestMatchers("/", "index.html", "/assets/**").permitAll()
 						.requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
@@ -178,20 +179,17 @@ public class WebSecurityConfig {
          
          return authManagerBuilder.build();
      }
-    // @Bean
-	// CorsConfigurationSource corsConfigurationSource() {
-	// 	CorsConfiguration configuration = new CorsConfiguration();
-	// 	configuration.setAllowedOrigins( List.of("http://127.0.0.1:5500", "https://ecommer-generica.netlify.app") );
-	// 	configuration.setAllowedMethods( List.of("GET", "POST", "PUT", "DELETE") );
-	// 	configuration.setAllowedHeaders( List.of("Authorization","Content-Type") );
-		
-	// 	// Para todas las rutas en la aplicación ("/**"), 
-	// 	// aplique la configuración CORS definida en el objeto configuration.
-	// 	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-	// 	source.registerCorsConfiguration("/**", configuration);
-	// 	return source;
-			
-	// }
-	
+	 @Bean
+	 CorsConfigurationSource corsConfigurationSource() {
+		 CorsConfiguration configuration = new CorsConfiguration();
+		 configuration.setAllowedOrigins(List.of("http://127.0.0.1:5501")); // Permitir explícitamente este origen
+		 configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Asegúrate de incluir OPTIONS para las solicitudes preflight
+		 configuration.setAllowedHeaders(List.of("Authorization", "Content-Type")); // Permitir estos headers
+		 configuration.setExposedHeaders(List.of("Authorization")); // Exponer este header
+	 
+		 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		 source.registerCorsConfiguration("/**", configuration); // Aplicar la configuración a todas las rutas
+		 return source;
+	 }
 }
 
