@@ -1,6 +1,7 @@
 package com.zapateriapg.app.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.zapateriapg.app.entity.Usuario;
 import com.zapateriapg.app.repository.UsuarioRepository;
@@ -15,21 +16,52 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     public Usuario getById(long id) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         return usuarioOptional.orElse(null);
     }
 
-    @Override
-    public Usuario getUsuarioByEmail(String email) {
-        return usuarioRepository.findByEmail(email).orElse(null);
-    }
 
     @Override
-    public Usuario createUsuario(Usuario usuario) {
-        return usuarioRepository.save(usuario);
-    }
+	public Usuario getUsuarioByEmail(String email) {
+		Optional<Usuario> userOptional = usuarioRepository.findByEmail(email);
+		Usuario existingUser;
+		
+		if( userOptional.isPresent() ) {
+			existingUser = userOptional.get();
+			return existingUser;
+		} else {
+			throw new IllegalStateException("User does not exist with email " + email);
+		}	
+	}
+
+    // @Override
+    // public Usuario createUsuario(Usuario usuario) {
+    //     return usuarioRepository.save(usuario);
+    // }
+
+    @Override
+	public Usuario createUsuario(Usuario user) {	
+		user.setActive(true);
+		user.setIdUsuario(0);
+		// user.setRole( new Role(1) );
+		user.setPassword( passwordEncoder.encode( user.getPassword() ) );
+		
+		if( usuarioRepository.existsByEmail(user.getEmail()) ) {
+			throw new IllegalStateException("User exist with email " + user.getEmail());
+		}
+					
+		return usuarioRepository.save(user);
+	}
+
+
+
+
+
 
     // @Override
     // public List<Usuario> getAllUsuarios() {
@@ -57,7 +89,20 @@ public class UsuarioServiceImpl implements UsuarioService {
     }
 
     @Override
-    public List<Usuario> getAllUsuarios() {
-        return  (List<Usuario>) usuarioRepository.findAll();
+	public List<Usuario> getAllActiveUsers() {		
+		return (List<Usuario>) usuarioRepository.findAllByActiveTrue();
+	}
+
+	@Override
+	public List<Usuario> getAllInactiveUsers() {
+		return (List<Usuario>) usuarioRepository.findAllByActiveFalse();
+	}
+
+    @Override
+    public List<Usuario> getAllUsuarios(boolean isActive) {
+        if( isActive ) return getAllActiveUsers();
+		else return getAllInactiveUsers();		
     }
+
+    
 }

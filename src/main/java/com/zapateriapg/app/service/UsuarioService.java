@@ -8,7 +8,9 @@ public interface UsuarioService {
 	Usuario getById(long id);
 	Usuario getUsuarioByEmail(String email);
 	Usuario createUsuario(Usuario Usuario);
-	List<Usuario> getAllUsuarios();
+	List<Usuario> getAllActiveUsers();
+	List<Usuario> getAllInactiveUsers();
+	List<Usuario> getAllUsuarios(boolean isActive);
 	Usuario updateUsuario(Usuario Usuario, Long id);
 	void deleteUsuario(Long id); 
 

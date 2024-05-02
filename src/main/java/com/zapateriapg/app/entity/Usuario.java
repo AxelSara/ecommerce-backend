@@ -15,8 +15,10 @@ public class Usuario {
 	private String email;
 	@Column(name="telefono",nullable = false, length = 30)
 	private String telefono;
-	@Column(name="password",nullable = false, length = 30)
+	@Column(name="password",nullable = false, length = 120)
 	private String password;
+
+	private Boolean active; 
 	
 	/*
 
@@ -65,12 +67,23 @@ public class Usuario {
 		this.telefono = telefono;
 	}
 
-	public String getpassword() {
+	public String getPassword() {
 		return password;
 	}
 
-	public void setpassword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
+	}
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public Rol getRole() {
+		return rol;
 	}
 
 	public Rol getRol() {
@@ -94,6 +107,8 @@ public class Usuario {
 		builder.append(telefono);
 		builder.append(", password=");
 		builder.append(password);
+		builder.append(", active=");
+		builder.append(active);
 		builder.append(", rol=");
 		builder.append(rol);
 		builder.append("]");

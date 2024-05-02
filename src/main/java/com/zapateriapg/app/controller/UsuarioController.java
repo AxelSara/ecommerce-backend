@@ -1,6 +1,8 @@
 package com.zapateriapg.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.zapateriapg.app.entity.Usuario;
 import com.zapateriapg.app.service.UsuarioService;
@@ -32,11 +34,14 @@ public class UsuarioController {
     }
 
     // Método para obtener todos los usuarios
-    @GetMapping
-    public List<Usuario> getAllUsuarios() {
-        return usuarioService.getAllUsuarios();
+	@GetMapping 
+	 ResponseEntity< List<Usuario> > getAllUsers(
+			@RequestParam(	name="active", 
+							required=false, 
+							defaultValue="true") boolean active 
+			){
+		return new ResponseEntity<List<Usuario>>(usuarioService.getAllUsuarios( active ), HttpStatus.OK);
     }
-
     // Método para actualizar un usuario existente
     @PutMapping("/{id}")
     public Usuario updateUsuario(@RequestBody Usuario usuario, @PathVariable Long id) {
