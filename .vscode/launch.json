@@ -2,11 +2,18 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-ZapateriasPgApiApplication<zapateriasPG_api>",
+            "name": "AppApplication",
+            "request": "launch",
+            "mainClass": "com.zapateriapg.app.AppApplication",
+            "projectName": "app"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AppApplication<ecommerce-backend>",
             "request": "launch",
             "cwd": "${workspaceFolder}",
-            "mainClass": "com.zapateriaspg.app.ZapateriasPgApiApplication",
-            "projectName": "zapateriasPG_api",
+            "mainClass": "com.zapateriapg.app.AppApplication",
+            "projectName": "ecommerce-backend",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
         }
