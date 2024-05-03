@@ -126,7 +126,7 @@ public class WebSecurityConfig {
 						.requestMatchers("/", "index.html", "/assets/**").permitAll()
 						.requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
 						.requestMatchers(HttpMethod.GET, "/api/v1/products","/api/v1/products/**").permitAll()
-						.requestMatchers("/api/usuarios", "/api/roles/**").hasRole("admin")
+						.requestMatchers("/api/usuarios", "/api/roles/**", "/api/v1/menuAdmin/**").hasRole("admin")
 						.requestMatchers("/api/usuarios/**",
 										"/api/v1/purchases/**",
 										"/api/v1/order-has-products/**"

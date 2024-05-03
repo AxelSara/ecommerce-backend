@@ -23,7 +23,7 @@ public class UserDetailsImp implements UserDetails {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		
 		authorities.add( 
-			new SimpleGrantedAuthority( "ROLE_" + this.user.getRol().getNombreRol() )  
+			new SimpleGrantedAuthority( "ROL_" + this.user.getRol().getNombreRol() )  
 		);
 		
 		

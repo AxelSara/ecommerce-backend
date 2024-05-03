@@ -82,9 +82,6 @@ public class Usuario {
 		return active;
 	}
 
-	public Rol getRole() {
-		return rol;
-	}
 
 	public Rol getRol() {
 		return rol;
