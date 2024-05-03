@@ -124,9 +124,12 @@ public class WebSecurityConfig {
 				.cors(withDefaults())
 				.authorizeHttpRequests( authorize -> authorize
 						.requestMatchers("/", "index.html", "/assets/**").permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/usuarios").permitAll()
 						.requestMatchers(HttpMethod.POST, "/api/usuarios").permitAll()
+						.requestMatchers(HttpMethod.GET, "/api/direcciones").permitAll() // Api direcciones
+						.requestMatchers(HttpMethod.POST, "/api/direcciones").permitAll() 
 						.requestMatchers(HttpMethod.GET, "/api/v1/products","/api/v1/products/**").permitAll()
-						.requestMatchers("/api/usuarios", "/api/roles/**").hasRole("admin")
+						.requestMatchers("/api/usuarios", "/api/roles/**", "/api/v1/menuAdmin/**").hasRole("admin")
 						.requestMatchers("/api/usuarios/**",
 										"/api/v1/purchases/**",
 										"/api/v1/order-has-products/**"
@@ -182,7 +185,7 @@ public class WebSecurityConfig {
 	 @Bean
 	 CorsConfigurationSource corsConfigurationSource() {
 		 CorsConfiguration configuration = new CorsConfiguration();
-		 configuration.setAllowedOrigins(List.of("http://127.0.0.1:5501")); // Permitir explícitamente este origen
+		 configuration.setAllowedOrigins(List.of("http://127.0.0.1:5502")); // Permitir explícitamente este origen
 		 configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // Asegúrate de incluir OPTIONS para las solicitudes preflight
 		 configuration.setAllowedHeaders(List.of("Authorization", "Content-Type")); // Permitir estos headers
 		 configuration.setExposedHeaders(List.of("Authorization")); // Exponer este header
