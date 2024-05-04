@@ -17,10 +17,10 @@ public class UsuarioController {
     UsuarioService usuarioService;
 
     // Método para obtener un usuario por ID
-    @GetMapping("/{id}")
-    public Usuario getUsuarioById(@PathVariable Long id) {
-        return usuarioService.getById(id);
-    }
+	@GetMapping("/{id}") // localhost:8080/api/v1/users/{id}
+	ResponseEntity<Usuario> getUserById(@PathVariable("id") Long id ){
+		return new ResponseEntity<Usuario>(usuarioService.getById(id) ,HttpStatus.OK );
+	}
 
     // Método para obtener un usuario por correo electrónico
     @GetMapping("/email/{email}")

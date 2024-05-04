@@ -27,7 +27,7 @@ public class TokenUtils {
 	// private final static String ACCESS_TOKEN_SECRET = "9i3DZ1KONQ5VET8vWXl7EfaT+Ws2b9Bv+okkT7f6DBo=";
     // Generación de token por medio de ID aleatorio (No poner "-" o "_")
 	private final static String ACCESS_TOKEN_SECRET = "2e58420b7a254484a496f8a5ac38f8f52e58420b7a254484a496f8a5ac38f8f5";
-	private final static long ACCESS_TOKEN_VALID_SECONDS = 900L;
+	private final static long ACCESS_TOKEN_VALID_SECONDS = 4900L;
 
 	// STEP 7.1 Crear el token
 	public static String createToken(

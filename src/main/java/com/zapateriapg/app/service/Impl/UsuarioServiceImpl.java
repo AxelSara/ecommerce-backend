@@ -19,11 +19,26 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    // @Override
+    // public Usuario getById(long id) {
+    //     Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+    //     return usuarioOptional.orElse(null);
+    // }
+
     @Override
-    public Usuario getById(long id) {
-        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
-        return usuarioOptional.orElse(null);
-    }
+	public Usuario getById(long id) {		
+		Optional<Usuario> userOptional = usuarioRepository.findById(id);
+		Usuario existingUser;
+		
+		if( userOptional.isPresent() ) {
+			existingUser = userOptional.get();
+			return existingUser;
+		} else {
+			throw new IllegalStateException("User does not exist with id " + id);
+		}			
+	}
+
+    
 
 
     @Override

@@ -3,13 +3,23 @@ package com.zapateriapg.app.service.Impl;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.zapateriapg.app.entity.Direccion;
+import com.zapateriapg.app.entity.Usuario;
 import com.zapateriapg.app.repository.DireccionRepository;
+import com.zapateriapg.app.repository.UsuarioRepository;
 import com.zapateriapg.app.service.DireccionService;
 
+@Service
 public class DireccionServiceImpl implements DireccionService{
-
+    @Autowired
     DireccionRepository direccionRepository;
+
+    @Autowired
+    UsuarioRepository usuarioRepository;
+
 
     public DireccionServiceImpl(DireccionRepository direccionRepository) {
         this.direccionRepository = direccionRepository;
@@ -35,22 +45,29 @@ public class DireccionServiceImpl implements DireccionService{
 
     @Override
     public Direccion insertarDireccion(Direccion direccion) {
-        
-        direccion.setCalle(null);
-        direccion.setColonia(null);;
-        direccion.setCp(null);
-        direccion.setDelegacionMunicipio(null);
-        direccion.setEmail(null);
-        direccion.setEstado(null);
-        direccion.setIndicacionesEspeciales(null);
-        direccion.setNoExterior(null);
-        direccion.setNoInterior(null);
-        direccion.setNombreDomicilio(null);
-        direccion.setNombreUsuario(null);
-        direccion.setTelefono(null);
-        
-        return direccionRepository.save(direccion);
-   }
+    // Verificar si el Usuario asociado existe
+    Optional<Usuario> usuarioOptional = usuarioRepository.findById(direccion.getUsuario().getIdUsuario());
+    if (!usuarioOptional.isPresent()) {
+        throw new IllegalStateException("El Usuario con id " + direccion.getUsuario().getIdUsuario() + " no existe");
+    }
+
+    // Si el Usuario existe, proceder con la inserción de la dirección
+    direccion.setCalle(direccion.getCalle());
+    direccion.setColonia(direccion.getColonia());
+    direccion.setCp(direccion.getCp());
+    direccion.setDelegacionMunicipio(direccion.getDelegacionMunicipio());
+    direccion.setEmail(direccion.getEmail());
+    direccion.setEstado(direccion.getEstado());
+    direccion.setIndicacionesEspeciales(direccion.getIndicacionesEspeciales());
+    direccion.setNoExterior(direccion.getNoExterior());
+    direccion.setNoInterior(direccion.getNoInterior());
+    direccion.setNombreDomicilio(direccion.getNombreDomicilio());
+    direccion.setNombreUsuario(direccion.getNombreUsuario());
+    direccion.setTelefono(direccion.getTelefono());
+
+    return direccionRepository.save(direccion);
+}
+
 
    @Override
    public Direccion actualizarDireccion(Direccion direccion, long id) {
@@ -68,6 +85,7 @@ public class DireccionServiceImpl implements DireccionService{
         direccionActualizada.setNombreDomicilio(null);
         direccionActualizada.setNombreUsuario(null);
         direccionActualizada.setTelefono(null);
+        direccionActualizada.setUsuario(direccion.getUsuario());
         return direccionRepository.save(direccionActualizada);
    }
 
