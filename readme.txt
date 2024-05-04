@@ -1,1 +1,0 @@
-Repo para el backend de la e-commerce P&G
